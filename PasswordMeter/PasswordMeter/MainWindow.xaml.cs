@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -32,6 +33,73 @@ namespace PasswordMeter
 
         private void passwordMeterButton_Click(object sender, RoutedEventArgs e)
         {
+            string username = userNameTextBox.Text.Trim();
+            string password = passwordTextBox.Text.Trim();
+
+            if (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(password))
+            {
+                resultTextBlock.Text = "Geef eerste een gebruikersnaam en wachtwoord in.";
+                return;
+            }
+            int passwordStrenght = 0;
+            if (!password.Contains(username))
+            {
+                passwordStrenght++;
+            }
+            if (password.Length >= 10)
+            {
+                passwordStrenght++;
+            }
+
+            bool hasDigit = false;
+            bool hasUpper = false;
+            bool hasLower = false;
+
+            foreach (char character in password.ToCharArray())
+            {
+
+                if (char.IsDigit(character))
+                {
+                    hasDigit = true;
+                }
+                if (!char.IsLower(character))
+                {
+                    hasUpper = true;
+                }
+                if (!char.IsLower(character))
+                {
+                    hasLower = true;
+                }
+            }
+
+            if (hasDigit)
+            {
+                passwordStrenght++;
+            }
+            if (hasUpper)
+            {
+                passwordStrenght++;
+            }
+            if (hasLower)
+            {
+                passwordStrenght++;
+            }
+
+            switch (passwordStrenght)
+            {
+                case 5:
+                    resultTextBlock.Text = "Sterk Wachtwoord";
+                    break;
+                case 4:
+                    resultTextBlock.Text = "Ok Wachtwoord";
+                    break;
+                default:
+                    resultTextBlock.Text = "Zwak Wachtwoord";
+                    break;
+            }
+
+
+
 
         }
     }
